@@ -1,8 +1,6 @@
 ---
 pcx_content_type: changelog
 title: CASB
-release_notes_file_name:
-  - casb
 head:
   - tag: title
     content: CASB Changelog
@@ -10,8 +8,6 @@ description: Review recent changes to Cloudflare CASB.
 
 ---
 
-import { ProductReleaseNotes } from "~/components"
+import { ProductChangelog } from "~/components"
 
-{/* <!-- All changelog entries live in src/content/changelogs/casb.yaml. For more details, refer to https://developers.cloudflare.com/style-guide/documentation-content-strategy/content-types/changelog/#yaml-file --> */}
-
-<ProductReleaseNotes />
+<ProductChangelog products={["casb"]} />

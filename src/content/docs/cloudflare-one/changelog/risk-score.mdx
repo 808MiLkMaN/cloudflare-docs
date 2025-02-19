@@ -1,17 +1,12 @@
 ---
 pcx_content_type: changelog
 title: Risk score
-release_notes_file_name:
-  - risk-score
 head:
   - tag: title
     content: Risk score Changelog
 description: Review recent changes to Cloudflare Zero Trust user risk scoring.
-
 ---
 
-import { ProductReleaseNotes } from "~/components"
+import { ProductChangelog } from "~/components"
 
-{/* <!-- All changelog entries live in src/content/changelogs/risk-score.yaml. For more details, refer to https://developers.cloudflare.com/style-guide/documentation-content-strategy/content-types/changelog/#yaml-file --> */}
-
-<ProductReleaseNotes />
+<ProductChangelog products={["risk-score"]} />

@@ -1,8 +1,6 @@
 ---
 pcx_content_type: changelog
 title: Digital Experience Monitoring
-release_notes_file_name:
-  - dex
 head:
   - tag: title
     content: Digital Experience Monitoring Changelog
@@ -10,8 +8,6 @@ description: Review recent changes to Digital Experience Monitoring.
 
 ---
 
-import { ProductReleaseNotes } from "~/components"
+import { ProductChangelog } from "~/components"
 
-{/* <!-- All changelog entries live in src/content/changelogs/dex.yaml. For more details, refer to https://developers.cloudflare.com/style-guide/documentation-content-strategy/content-types/changelog/#yaml-file --> */}
-
-<ProductReleaseNotes />
+<ProductChangelog products={["dex"]} />
