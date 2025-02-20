@@ -5,6 +5,9 @@ import pluginTypeScript from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 import pluginAstro from "eslint-plugin-astro";
 import pluginReactA11y from "eslint-plugin-jsx-a11y";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import pluginYml from "eslint-plugin-yml";
+import pluginJson from "eslint-plugin-json";
 
 import globals from "globals";
 
@@ -26,9 +29,12 @@ export default [
 		...pluginReact.configs.flat.recommended,
 		...pluginReactA11y.flatConfigs.recommended,
 		...pluginReact.configs.flat["jsx-runtime"],
+		...pluginReactHooks.configs["recommended-latest"],
 	},
 	...pluginTailwind.configs["flat/recommended"],
 	pluginUnicorn.configs.recommended,
+	pluginJson.configs.recommended,
+	...pluginYml.configs["flat/recommended"],
 	{
 		settings: {
 			tailwindcss: {

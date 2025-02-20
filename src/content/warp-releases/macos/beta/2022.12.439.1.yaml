@@ -1,7 +1,7 @@
 releaseNotes: >-
   This release contains the following changes since the previous 2022.12 beta
   release
-   
+
   **Notable updates**
 
   - Added support for new Zero Trust network location aware WARP feature. More
@@ -17,13 +17,13 @@ releaseNotes: >-
 
   - Fixed issue that could cause some DNS queries to take upto 15 seconds to
   complete
-   
 
-   
+
+
   **Known issues**
 
   - There is a race condition that may cause IPv4 traffic to fail after the
-  tunnel starts up. This can be fixed by toggling off then back on the
+  tunnel starts up. This can be fixed by toggling off then back on the
   connection. A hotfix is in the works.
 
   - If you are having issues with upgrading to new beta, please uninstall

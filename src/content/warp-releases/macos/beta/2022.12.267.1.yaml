@@ -1,7 +1,7 @@
 releaseNotes: >-
   This release primarily contains bug fixes, no new features are included in
   this release
-   
+
   **Notable updates**
 
   - Improved captive portal handling for some more captive portals.
@@ -11,7 +11,7 @@ releaseNotes: >-
 
   - Modified initial connectivity check behavior to now validate both IPv4 and
   IPv6 are working (previously we only checked IPv4). Test will pass if either
-  connects successfully. 
+  connects successfully.
 
   - Fixed issue where client could be stuck on `Connecting` if certain DNS
   checks failed once.
@@ -34,11 +34,11 @@ releaseNotes: >-
 
   - Fixed issue where our local DNS proxy server could get unset with an overly
   active DHCP renew time or by plugging in/out a tethered device.
-   
+
   **Known issues**
 
   - There is a race condition that may cause IPv4 traffic to fail after the
-  tunnel starts up. This can be fixed by toggling off then back on the
+  tunnel starts up. This can be fixed by toggling off then back on the
   connection. A hotfix is in the works.
 
   - If you are having issues with upgrading to new beta, please uninstall
