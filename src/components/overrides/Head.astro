@@ -140,13 +140,13 @@ if (Astro.locals.starlightRoute.entry.data.products) {
 
 // other products
 if (Astro.locals.starlightRoute.entry.data.tags) {
-	type Props = z.infer<typeof props>;
-
 	const props = z.object({
 		tags: z.array(z.string()).transform((tags) => {
 			if (tags) {
 				// Only keep values that are in tagsValues
-				return tags.filter((tag) => tagsValues.includes(tag));
+				return tags.filter((tag) =>
+					tagsValues.includes(tag),
+				) as (typeof tagsValues)[number][];
 			}
 			return [];
 		}),
