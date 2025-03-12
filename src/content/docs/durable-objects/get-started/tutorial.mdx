@@ -19,15 +19,7 @@ If you wish to learn more about Durable Objects, refer to [What are Durable Obje
 
 <Render file="prereqs" product="workers" />
 
-## 1. Enable Durable Objects in the dashboard
-
-To enable Durable Objects, you will need to purchase the Workers Paid plan:
-
-1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/), and select your account.
-2. Go to **Workers & Pages** > **Plans**.
-3. Select **Purchase Workers Paid** and complete the payment process to enable Durable Objects.
-
-## 2. Create a Worker project
+## 1. Create a Worker project
 
 Durable Objects are accessed from a [Worker](/workers/).
 
@@ -59,7 +51,7 @@ Move into your new directory:
 cd durable-object-starter
 ```
 
-## 3. Write a Durable Object class
+## 2. Write a Durable Object class
 
 Durable Objects are defined by a exporting a standard JavaScript class which extends from the `DurableObject` base class.
 
@@ -126,7 +118,7 @@ export class MyDurableObject extends DurableObject {
 
 </TabItem> </Tabs>
 
-## 4. Invoke methods on a Durable Object class
+## 3. Invoke methods on a Durable Object class
 
 As mentioned previously, methods on a Durable Object class are invoked by a Worker. This is done by creating an ID refering to an instance of the Durable Object class, getting a stub that refers to a particular instance of a Durable Object class, and invoking methods on that stub.
 
@@ -174,7 +166,7 @@ export default {
 
 </TabItem> </Tabs>
 
-## 5. Configure Durable Object bindings
+## 4. Configure Durable Object bindings
 
 To allow a Worker to invoke methods on a Durable Object, the Worker must have a [Durable Object binding](/workers/runtime-apis/bindings/) in the project's [Wrangler configuration file](/workers/wrangler/configuration/#durable-objects). The binding is configured to use a particular Durable Object class.
 
@@ -197,7 +189,7 @@ The `[[durable_objects.bindings]]` section contains the following fields:
 
 Refer to [Wrangler Configuration](/workers/wrangler/configuration/#durable-objects) for more detail.
 
-## 6. Configure Durable Object classes with migrations
+## 5. Configure Durable Object classes with migrations
 
 A migration is a mapping process from a class name to a runtime state. You perform a migration when creating a new Durable Object class, or when renaming, deleting or transferring an existing Durable Object class.
 
@@ -217,7 +209,7 @@ new_classes = ["MyDurableObject"] # Array of new classes
 
 </WranglerConfig>
 
-### 6.a Optional: Configure new Durable Object class for SQL storage
+### 5.a Optional: Configure new Durable Object class for SQL storage
 
 :::note[SQLite in Durable Objects Beta]
 
@@ -243,7 +235,7 @@ new_sqlite_classes = ["MyDurableObject"] # Array of new classes
 
 Refer to [Durable Objects migrations](/durable-objects/reference/durable-objects-migrations/) to learn more about the migration process.
 
-## 7. Develop a Durable Object Worker locally
+## 6. Develop a Durable Object Worker locally
 
 To test your Durable Object locally, run [`wrangler dev`](/workers/wrangler/commands/#dev):
 
@@ -253,7 +245,7 @@ npx wrangler dev
 
 In your console, you should see a`Hello world` string returned by the Durable Object.
 
-## 8. Deploy your Durable Object Worker
+## 7. Deploy your Durable Object Worker
 
 To deploy your Durable Object Worker:
 
