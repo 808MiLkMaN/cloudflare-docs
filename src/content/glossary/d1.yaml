@@ -16,3 +16,6 @@ entries:
   - term: "query planner"
     general_definition: |-
       A component in a database management system which takes a user query and generates the most efficient plan of executing that query (the query plan). For example, the query planner decides which indices to use, or which table to access first.
+  - term: "session"
+    general_definition: |-
+      A Session encapsulates all the queries from one logical session for your application. For example, a Session may correspond to all queries coming from a particular web browser session.

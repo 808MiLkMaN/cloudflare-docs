@@ -1,27 +1,68 @@
 ---
-title: D1 read replication
+title: Read replication
 pcx_content_type: concept
 sidebar:
   order: 2
 
 ---
 
-import { GlossaryTooltip } from "~/components"
+import { GlossaryTooltip, Details } from "~/components"
 
 D1 read replication is a feature which reduces the <GlossaryTooltip term = "request latency">request latency</GlossaryTooltip> for read requests for users who may be located far away from the <GlossaryTooltip term="primary database instance">primary database instance</GlossaryTooltip>.
+
+You can use D1 read replication by using D1 Sessions API. A Session encapsulates all the queries from one logical session for your application. For example, a Session may correspond to all queries coming from a particular web browser session.
+
+By using Sessions API for read replication, all of your queries from a single Session read from a version of the database which is as up-to-date as your query. This ensures that the version of the database you are reading is logically consistent with your queries when using read replicas.
+
+```js collapse={8-15, 24-31}
+export default {
+	async fetch(request, env) {
+	  const { pathname } = new URL(request.url);
+	  const companyName1 = `Bs Beverages`;
+	  const stmt = env.DB.prepare(`SELECT * FROM Customers WHERE CompanyName = ?`);
+	  const session = env.DB.withSession("first-unconstrained");
+
+		// Without Sessions API / read replication
+		if (pathname === `/run`) {
+		const tsStart1 = Date.now();
+		const { results, meta } = await stmt.bind(companyName1).run();
+		const d1Duration1 = Date.now() - tsStart1;
+		return Response.json({ results, meta, d1Duration1 });
+	  }
+
+		// With Sessions API + read replication
+		else if (pathname === `/withsession`) {
+		const tsStart2 = Date.now();
+		const { results, meta } = await session.prepare(`SELECT * FROM Customers WHERE CompanyName = ?`).bind(companyName1).run();
+		const d1Duration2 = Date.now() - tsStart2;
+		return Response.json({ results, meta, d1Duration2 });
+	  }
+
+		// Welcome text
+	  return new Response(
+		`Welcome to the D1 read replication demo!
+	Add one of the following slugs below to see the effects of using D1 read replication.
+	/run - Queries the table without using read replication
+	/withsession - Queries the table using read replication (using "first-unconstrained")`
+	  );
+	}
+};
+```
+
+{/* Deploy to Workers button */}
 
 ## Primary database instance vs read replicas
 
 When using D1 without read replication, D1 routes all queries (both read and write) to a specific database instance in [one location in the world](/d1/configuration/data-location/), known as the primary database instance. The request latency is dependent on the physical closeness of a user to the primary database instance - it takes less time for light (information) to travel between the user and the primary database instance if that distance is shorter. Users located further away from this database instance experience the longest request latency.
 
-When using read replication, D1 introduces multiple “almost up-to-date” copies of the primary database instance which only serve read requests, called <GlossaryTooltip term="read replica"> read replicas </GlossaryTooltip>. D1 creates the read replicas in multiple regions throughout the world [across the Cloudflare network](/d1/concepts/read-replication/#read-replica-locations).
+When using read replication, D1 introduces multiple “almost up-to-date” copies of the primary database instance which only serve read requests, called <GlossaryTooltip term="read replica"> read replicas </GlossaryTooltip>. D1 creates the read replicas in multiple regions throughout the world [across the Cloudflare network](/d1/features/read-replication/#read-replica-locations).
 
 A user may be located far away from the primary database instance but close to a read replica. By sending their read requests to the read replica instead of the primary database instance, the user enjoys shorter read request response times. For example, the request latency when using the primary database instance may be 250 ms, versus 20 - 50 ms when using a read replica.
 
 ![D1 read replication concept](/images/d1/d1-read-replication-concept.png)
 
 :::note
-All write requests are still forwarded to the primary database instance. Read replication only improves the query response time for read requests.
+All write queries are still forwarded to the primary database instance. Read replication only improves the query response time for read requests.
 :::
 
 | Type of database instance | Description                                                                                                                                       | How it handles write queries                                | How it handles read queries                               |
@@ -44,13 +85,11 @@ Sequential consistency has properties such as:
 - **Writes follow reads**: If you read a value, then perform a write, the subsequent write must be based on the value that was just read.
 - **Read my own writes**: If you write to the database, all subsequent reads will see the write.
 
-## How D1 read replication works
+## Use Sessions API
 
 ### Use read replication via Sessions API
 
-You can use D1 read replication by using D1 Sessions API. A Session encapsulates all the queries from one logical session for your application. For example, a Session may correspond to all queries coming from a particular web browser session.
-
-By using Sessions API for read replication, all of your queries from a single Session read from a version of the database which is as up-to-date as your query. This ensures that the version of the database you are reading is logically consistent with your queries when using read replicas.
+By using <GlossaryTooltip term="session">Sessions API</GlossaryTooltip> for read replication, all of your queries from a single Session read from a version of the database which is as up-to-date as your query. This ensures that the version of the database you are reading is logically consistent with your queries when using read replicas.
 
 ### Bookmarks
 
@@ -94,15 +133,17 @@ When continuing an existing Session started with `withSession`, you can provide 
 
 By default (when the `<constraint>` is either `null` or unspecified), D1 Session uses `first-primary` as the starting condition.
 
-### Example of starting a new Session with `first-primary`
+For more information on Sessions API, refer to the [D1 Workers Binding API documentation](/d1/worker-api/d1-database#withsession).
+
+### Examples
+
+#### Start a new Session with `first-primary`
 
 Suppose you want to develop a webpage for an electricity provider which lists the electricity bill statements. An assumption here is that each statement is immutable. Once issued, it never changes.
 
 In this scenario, you want the first request of the page to show a list of all the statements and their issue dates. Therefore, the first request starts a new D1 Session using the constraint `first-primary` to get the latest information (ensuring that the list includes all issued bill statements) from the primary database instance.
 
 Then, when opening an individual electricity bill statement, we can continue using the same Session by passing the `bookmark` from the first query to subsequent requests. Since each bill statement is immutable, any bill statement listed from the first query is guaranteed to be available in subsequent requests using the same Session.
-
-#### Example Worker code
 
 ```ts
 async function listBillStatements(accountId: string, db: D1Database): ListBillStatementsResult {
@@ -119,15 +160,13 @@ async function getBillStatement(accountId: string, billId: string, bookmark: str
 }
 ```
 
-### Example of starting a new Session with `first-unconstrained`
+#### Start a new Session with `first-unconstrained`
 
 Suppose you want to develop a feature for displaying “likes” on a social network application.
 
 The number of likes is a good example of a situation which does not require the latest information all the time. When displaying the number of likes of a post, the first request starts a new D1 Session using the constraint `first-unconstrained`, which will be served by the nearest D1 read replica.
 
 Subsequent interactions on the application should continue using the same Session by passing the `bookmark` from the first query to subsequent requests. This guarantees that all interactions will observe information at least as up-to-date as the initial request, and therefore never show information older than what a user has already observed. The number of likes will be updated with newer counts over time with subsequent requests as D1 asynchronously updates the read replicas with the changes from the primary database.
-
-#### Example Worker code
 
 ```js
 async function getLikes(postId: string, db: D1Database, bookmark: string | null): GetLikesResult {
@@ -159,6 +198,13 @@ A system with multiple read replicas located around the world improves the perfo
 ## Monitor latency
 
 To see the impact of read replication, check the latency for your read-only queries. Refer to the [queryBatchTimeMs](/d1/observability/metrics-analytics/) metric or [view your metrics through the dashboard](/d1/observability/metrics-analytics/#view-metrics-in-the-dashboard).
+
+## Known limitations
+
+There are some known limitations for D1 read replication.
+
+- The lifecycle of a read replica is tied to the lifecycle of the primary database instance. For example, iof the primary database instance is inactive, the read replicas are inactive too.
+- TBC
 
 ## Supplementary information
 
