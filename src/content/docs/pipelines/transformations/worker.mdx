@@ -63,7 +63,7 @@ type InputType = {
 }
 
 // Define the expected type of records after they are transformed
-type OutputType = {;
+type OutputType = {
 	foo: string
 	modified: boolean
 	pipelineId: string
@@ -76,9 +76,9 @@ export class MyTransform extends PipelineTransformationEntrypoint {
 	metadata: PipelineBatchMetadata
 	): Promise<OutputType[]> {
 		try {
-			console.log('Working on batch from pipeline: ',metadata.pipelineName)
+			console.log('Working on batch from pipeline: ', metadata.pipelineName)
 			return records.map((record) => {
-				const mutated = record as OutputType;
+				const mutated = record as OutputType
 				mutated.modified = true
 				mutated.pipelineId = metadata.pipelineId
 				return mutated
@@ -92,9 +92,9 @@ export class MyTransform extends PipelineTransformationEntrypoint {
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+		return new Response('Hello World!')
 	},
-} satisfies ExportedHandler<Env>;
+} satisfies ExportedHandler<Env>
 ```
 
 Transformations are defined by extending the `PipelineTransformationEntrypoint` class. The transformation definition must define a `run()` method, which contains the primary logic for the transformation. As seen above, the `run()` method receives objects from a Pipeline, and returns objects back to the Pipeline. The transformation above adds two fields to each incoming record.
