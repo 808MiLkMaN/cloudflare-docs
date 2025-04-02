@@ -27,6 +27,7 @@
 	"devDependencies": {
 		"@actions/core": "1.11.1",
 		"@actions/github": "6.0.0",
+		"@anthropic-ai/claude-code": "0.2.59",
 		"@apidevtools/swagger-parser": "10.1.1",
 		"@astrojs/check": "0.9.4",
 		"@astrojs/react": "4.2.1",

@@ -5,7 +5,14 @@ import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import ModelCatalog from "~/components/ModelCatalog.tsx";
 
 const modelData = await getCollection("workers-ai-models");
-const models = modelData.map(({ data }) => data);
+let models = modelData.map(({ data }) => data);
+
+// Sort models by created_at date (newest first)
+models = models.sort((a, b) => {
+  const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
+  const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
+  return dateB.getTime() - dateA.getTime();
+});
 ---
 
 <StarlightPage frontmatter={{ title: "Models", tableOfContents: false }}>

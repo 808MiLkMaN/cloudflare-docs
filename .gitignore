@@ -28,3 +28,4 @@ pnpm-debug.log*
 /worker/functions/
 
 .idea
+/public/*
