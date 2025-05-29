@@ -1,0 +1,25 @@
+category: ai
+name: AI
+icon: 🤖
+products:
+  - product: Vectorize
+    description: Vector database for AI
+    link: /vectorize/
+    components:
+      - name: Vector dimensions queried
+        included: None
+        unit: per million
+        price: "$0.01"
+      - name: Vector dimensions stored
+        included: None
+        unit: per 100 million
+        price: "$0.05"
+  
+  - product: Workers AI
+    description: Run AI models at the edge
+    link: /workers-ai/
+    components:
+      - name: Neurons
+        included: None
+        unit: per 1,000 neurons/day
+        price: "$0.011"

@@ -1,0 +1,39 @@
+category: other
+name: Other Services
+icon: 🔧
+products:
+  - product: Queues
+    description: Message queuing service
+    link: /queues/
+    components:
+      - name: Standard Operations
+        included: None
+        unit: per million operations
+        price: "$0.40"
+  
+  - product: Workers Observability
+    description: Monitor Workers performance
+    link: /workers/observability/
+    components:
+      - name: Events
+        included: 20 million
+        unit: per million events
+        price: "$0.60"
+  
+  - product: Workers Builds
+    description: Build Workers at scale
+    link: /workers/
+    components:
+      - name: Build Minutes
+        included: None
+        unit: per minute
+        price: "$0.005"
+  
+  - product: Zaraz
+    description: Third-party tool manager
+    link: /zaraz/
+    components:
+      - name: Events
+        included: None
+        unit: per million events
+        price: "$5.00"

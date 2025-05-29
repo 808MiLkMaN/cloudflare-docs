@@ -1,0 +1,42 @@
+category: media
+name: Media
+icon: 🎬
+products:
+  - product: Realtime
+    description: Live data streaming platform
+    link: /realtime/
+    components:
+      - name: Data Egress
+        included: None
+        unit: per GB
+        price: "$0.05"
+  
+  - product: Images
+    description: Resize, optimize, and transform images
+    link: /images/
+    components:
+      - name: Unique transformations
+        included: None
+        unit: per 1,000
+        price: "$0.50"
+      - name: Images Stored
+        included: None
+        unit: per 100,000
+        price: "$5.00"
+      - name: Images Delivered
+        included: None
+        unit: per 100,000
+        price: "$1.00"
+  
+  - product: Stream
+    description: Video streaming platform
+    link: /stream/
+    components:
+      - name: Minutes Stored
+        included: None
+        unit: per 1,000 minutes
+        price: "$5.00"
+      - name: Minutes Delivered
+        included: None
+        unit: per 1,000 minutes
+        price: "$1.00"

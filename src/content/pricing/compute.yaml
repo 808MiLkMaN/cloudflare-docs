@@ -1,0 +1,50 @@
+category: compute
+name: Compute
+icon: 🚀
+products:
+  - product: Workers
+    description: Run serverless code at the edge
+    link: /workers/
+    components:
+      - name: Requests
+        included: 10 million
+        unit: per million requests
+        price: "$0.30"
+      - name: CPU time
+        included: 30 million ms
+        unit: per million CPU milliseconds
+        price: "$0.02"
+  
+  - product: Workers for Platforms
+    description: Deploy Workers on behalf of your customers
+    link: /cloudflare-for-platforms/workers-for-platforms/
+    components:
+      - name: Requests
+        included: 20 million
+        unit: per million requests
+        price: "$0.30"
+      - name: CPU time
+        included: 60 million ms
+        unit: per million CPU milliseconds
+        price: "$0.02"
+      - name: Scripts Deployed
+        included: "1,000"
+        unit: per script
+        price: "$0.02"
+  
+  - product: Workflows
+    description: Build durable, scalable applications
+    link: /workflows/
+    components:
+      - name: Requests
+        included: None
+        unit: per million requests
+        price: "$0.30"
+      - name: CPU time
+        included: None
+        unit: per million CPU milliseconds
+        price: "$0.02"
+      - name: Storage
+        included: None
+        unit: per GB-month
+        price: "$0.20"

@@ -1,204 +1,15 @@
 ---
+import { getCollection } from "astro:content";
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { Card, Tabs, TabItem } from "@astrojs/starlight/components";
 import { Details } from "~/components";
 
-const pricingData = {
-	compute: [
-		{
-			product: "Workers",
-			description: "Run serverless code at the edge",
-			components: [
-				{ name: "Requests", included: "10 million", unit: "per million requests", price: "$0.30" },
-				{ name: "CPU time", included: "30 million ms", unit: "per million CPU milliseconds", price: "$0.02" },
-			],
-			link: "/workers/",
-		},
-		{
-			product: "Workers for Platforms",
-			description: "Deploy Workers on behalf of your customers",
-			components: [
-				{ name: "Requests", included: "20 million", unit: "per million requests", price: "$0.30" },
-				{ name: "CPU time", included: "60 million ms", unit: "per million CPU milliseconds", price: "$0.02" },
-				{ name: "Scripts Deployed", included: "1,000", unit: "per script", price: "$0.02" },
-			],
-			link: "/cloudflare-for-platforms/workers-for-platforms/",
-		},
-		{
-			product: "Workflows",
-			description: "Build durable, scalable applications",
-			components: [
-				{ name: "Requests", included: "None", unit: "per million requests", price: "$0.30" },
-				{ name: "CPU time", included: "None", unit: "per million CPU milliseconds", price: "$0.02" },
-				{ name: "Storage", included: "None", unit: "per GB-month", price: "$0.20" },
-			],
-			link: "/workflows/",
-		},
-	],
-	storage: [
-		{
-			product: "R2",
-			description: "Object storage with zero egress fees",
-			components: [
-				{ name: "Standard Storage", included: "10 GB-month", unit: "per GB-month", price: "$0.015" },
-				{ name: "Standard Class A operations", included: "1 million", unit: "per million requests", price: "$4.50" },
-				{ name: "Standard Class B operations", included: "10 million", unit: "per million requests", price: "$0.36" },
-				{ name: "Infrequent Access Storage", included: "10 GB-month", unit: "per GB-month", price: "$0.015" },
-				{ name: "Infrequent Access Class A operations", included: "1 million", unit: "per million requests", price: "$9.00" },
-				{ name: "Infrequent Access Class B operations", included: "10 million", unit: "per million requests", price: "$0.90" },
-				{ name: "Infrequent Access Data Retrieval", included: "None", unit: "per GB", price: "$0.10" },
-			],
-			link: "/r2/",
-		},
-		{
-			product: "Workers KV",
-			description: "Low-latency key-value data store",
-			components: [
-				{ name: "Stored Data", included: "1 GB", unit: "per GB-month", price: "$0.50" },
-				{ name: "Read Requests", included: "10 million", unit: "per million requests", price: "$0.50" },
-				{ name: "Write, Delete, List requests", included: "1 million", unit: "per million requests", price: "$5.00" },
-			],
-			link: "/kv/",
-		},
-		{
-			product: "D1",
-			description: "Serverless SQL database",
-			components: [
-				{ name: "Storage", included: "None", unit: "per GB-month", price: "$0.75" },
-				{ name: "Rows read", included: "None", unit: "per million rows", price: "$0.001" },
-				{ name: "Rows written", included: "None", unit: "per million rows", price: "$1.00" },
-			],
-			link: "/d1/",
-		},
-		{
-			product: "Durable Objects",
-			description: "Stateful serverless applications",
-			components: [
-				{ name: "Rows Read", included: "None", unit: "per million rows", price: "$0.0001" },
-				{ name: "Rows written", included: "None", unit: "per million rows", price: "$1.00" },
-				{ name: "SQL Stored data", included: "None", unit: "per GB-month", price: "$0.20" },
-				{ name: "Read request units", included: "None", unit: "per million", price: "$0.20" },
-			],
-			link: "/durable-objects/",
-		},
-		{
-			product: "Hyperdrive",
-			description: "Database connection pooling",
-			components: [
-				{ name: "Queries", included: "Unlimited", unit: "", price: "Free" },
-			],
-			link: "/hyperdrive/",
-		},
-		{
-			product: "Workers Analytics Engine",
-			description: "Time-series analytics at scale",
-			components: [
-				{ name: "Data points written", included: "10 million", unit: "per million", price: "$0.25" },
-				{ name: "Read queries", included: "1 million", unit: "per million", price: "$1.00" },
-			],
-			link: "/analytics/analytics-engine/",
-		},
-		{
-			product: "Pipelines",
-			description: "Transform and route data streams",
-			components: [
-				{ name: "Ingestion", included: "None", unit: "per GB", price: "$0.02" },
-				{ name: "Delivery to R2", included: "None", unit: "per GB", price: "$0.02" },
-			],
-			link: "/pipelines/",
-		},
-	],
-	media: [
-		{
-			product: "Realtime",
-			description: "Live data streaming platform",
-			components: [
-				{ name: "Data Egress", included: "None", unit: "per GB", price: "$0.05" },
-			],
-			link: "/realtime/",
-		},
-		{
-			product: "Images",
-			description: "Resize, optimize, and transform images",
-			components: [
-				{ name: "Unique transformations", included: "None", unit: "per 1,000", price: "$0.50" },
-				{ name: "Images Stored", included: "None", unit: "per 100,000", price: "$5.00" },
-				{ name: "Images Delivered", included: "None", unit: "per 100,000", price: "$1.00" },
-			],
-			link: "/images/",
-		},
-		{
-			product: "Stream",
-			description: "Video streaming platform",
-			components: [
-				{ name: "Minutes Stored", included: "None", unit: "per 1,000 minutes", price: "$5.00" },
-				{ name: "Minutes Delivered", included: "None", unit: "per 1,000 minutes", price: "$1.00" },
-			],
-			link: "/stream/",
-		},
-	],
-	ai: [
-		{
-			product: "Vectorize",
-			description: "Vector database for AI",
-			components: [
-				{ name: "Vector dimensions queried", included: "None", unit: "per million", price: "$0.01" },
-				{ name: "Vector dimensions stored", included: "None", unit: "per 100 million", price: "$0.05" },
-			],
-			link: "/vectorize/",
-		},
-		{
-			product: "Workers AI",
-			description: "Run AI models at the edge",
-			components: [
-				{ name: "Neurons", included: "None", unit: "per 1,000 neurons/day", price: "$0.011" },
-			],
-			link: "/workers-ai/",
-		},
-	],
-	other: [
-		{
-			product: "Queues",
-			description: "Message queuing service",
-			components: [
-				{ name: "Standard Operations", included: "None", unit: "per million operations", price: "$0.40" },
-			],
-			link: "/queues/",
-		},
-		{
-			product: "Workers Observability",
-			description: "Monitor Workers performance",
-			components: [
-				{ name: "Events", included: "20 million", unit: "per million events", price: "$0.60" },
-			],
-			link: "/workers/observability/",
-		},
-		{
-			product: "Workers Builds",
-			description: "Build Workers at scale",
-			components: [
-				{ name: "Build Minutes", included: "None", unit: "per minute", price: "$0.005" },
-			],
-			link: "/workers/",
-		},
-		{
-			product: "Zaraz",
-			description: "Third-party tool manager",
-			components: [
-				{ name: "Events", included: "None", unit: "per million events", price: "$5.00" },
-			],
-			link: "/zaraz/",
-		},
-	],
-};
-
-const categories = [
-	{ id: "compute", name: "Compute", icon: "🚀", data: pricingData.compute },
-	{ id: "storage", name: "Storage & Data", icon: "💾", data: pricingData.storage },
-	{ id: "media", name: "Media", icon: "🎬", data: pricingData.media },
-	{ id: "ai", name: "AI", icon: "🤖", data: pricingData.ai },
-	{ id: "other", name: "Other Services", icon: "🔧", data: pricingData.other },
-];
+const pricingCategories = await getCollection("pricing");
+const categories = pricingCategories.sort((a, b) => {
+	// Define category order
+	const order = ["compute", "storage", "media", "ai", "other"];
+	return order.indexOf(a.data.category) - order.indexOf(b.data.category);
+});
 ---
 
 <StarlightPage
@@ -210,9 +21,9 @@ const categories = [
 >
 	<Tabs>
 		{categories.map((category) => (
-			<TabItem label={`${category.icon} ${category.name}`}>
+			<TabItem label={`${category.data.icon} ${category.data.name}`}>
 				<div class="mt-6 space-y-6">
-					{category.data.map((product) => (
+					{category.data.products.map((product) => (
 						<Card title={product.product}>
 							<div class="flex justify-between items-start mb-3">
 								<div>

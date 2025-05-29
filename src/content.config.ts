@@ -15,6 +15,7 @@ import {
 	compatibilityFlagsSchema,
 	glossarySchema,
 	learningPathsSchema,
+	pricingSchema,
 	videosSchema,
 	workersAiModelsSchema,
 	warpReleasesSchema,
@@ -86,6 +87,10 @@ export const collections = {
 	}),
 	products: defineCollection({
 		loader: dataLoader("products"),
+	}),
+	pricing: defineCollection({
+		loader: dataLoader("pricing"),
+		schema: pricingSchema,
 	}),
 	"workers-ai-models": defineCollection({
 		loader: dataLoader("workers-ai-models"),

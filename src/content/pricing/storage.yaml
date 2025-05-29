@@ -1,0 +1,126 @@
+category: storage
+name: Storage & Data
+icon: 💾
+products:
+  - product: R2
+    description: Object storage with zero egress fees
+    link: /r2/
+    components:
+      - name: Standard Storage
+        included: 10 GB-month
+        unit: per GB-month
+        price: "$0.015"
+      - name: Standard Class A operations
+        included: 1 million
+        unit: per million requests
+        price: "$4.50"
+      - name: Standard Class B operations
+        included: 10 million
+        unit: per million requests
+        price: "$0.36"
+      - name: Infrequent Access Storage
+        included: 10 GB-month
+        unit: per GB-month
+        price: "$0.015"
+      - name: Infrequent Access Class A operations
+        included: 1 million
+        unit: per million requests
+        price: "$9.00"
+      - name: Infrequent Access Class B operations
+        included: 10 million
+        unit: per million requests
+        price: "$0.90"
+      - name: Infrequent Access Data Retrieval
+        included: None
+        unit: per GB
+        price: "$0.10"
+  
+  - product: Workers KV
+    description: Low-latency key-value data store
+    link: /kv/
+    components:
+      - name: Stored Data
+        included: 1 GB
+        unit: per GB-month
+        price: "$0.50"
+      - name: Read Requests
+        included: 10 million
+        unit: per million requests
+        price: "$0.50"
+      - name: Write, Delete, List requests
+        included: 1 million
+        unit: per million requests
+        price: "$5.00"
+  
+  - product: D1
+    description: Serverless SQL database
+    link: /d1/
+    components:
+      - name: Storage
+        included: None
+        unit: per GB-month
+        price: "$0.75"
+      - name: Rows read
+        included: None
+        unit: per million rows
+        price: "$0.001"
+      - name: Rows written
+        included: None
+        unit: per million rows
+        price: "$1.00"
+  
+  - product: Durable Objects
+    description: Stateful serverless applications
+    link: /durable-objects/
+    components:
+      - name: Rows Read
+        included: None
+        unit: per million rows
+        price: "$0.0001"
+      - name: Rows written
+        included: None
+        unit: per million rows
+        price: "$1.00"
+      - name: SQL Stored data
+        included: None
+        unit: per GB-month
+        price: "$0.20"
+      - name: Read request units
+        included: None
+        unit: per million
+        price: "$0.20"
+  
+  - product: Hyperdrive
+    description: Database connection pooling
+    link: /hyperdrive/
+    components:
+      - name: Queries
+        included: Unlimited
+        unit: ""
+        price: Free
+  
+  - product: Workers Analytics Engine
+    description: Time-series analytics at scale
+    link: /analytics/analytics-engine/
+    components:
+      - name: Data points written
+        included: 10 million
+        unit: per million
+        price: "$0.25"
+      - name: Read queries
+        included: 1 million
+        unit: per million
+        price: "$1.00"
+  
+  - product: Pipelines
+    description: Transform and route data streams
+    link: /pipelines/
+    components:
+      - name: Ingestion
+        included: None
+        unit: per GB
+        price: "$0.02"
+      - name: Delivery to R2
+        included: None
+        unit: per GB
+        price: "$0.02"

@@ -1,0 +1,10 @@
+name: Pricing
+
+product:
+  title: Pricing
+  url: /pricing/
+  show: false
+
+meta:
+  title: Cloudflare Developer Platform Pricing
+  description: Simple, transparent pricing for Cloudflare's developer products. Pay only for what you use.
