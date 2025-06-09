@@ -1,0 +1,143 @@
+---
+pcx_content_type: how-to
+title: Bindings
+sidebar:
+  order: 5
+---
+import { Aside } from "@astrojs/starlight/components";
+
+[Bindings](/workers/runtime-apis/bindings/) are resources (KV store, database, etc.) that you can attach to User Workers to enable end customers to build more powerful applications. By utilizing bindings, you can extend Cloudflare's developer platform to your end customers without needing to build the infrastructure components yourself. 
+
+With bindings, your users can:
+- Use [KV](/kv/) for high-read, eventually consistent key-value storage
+- Use [D1](/d1/) for relational data and complex queries
+- Store large files and assets in [R2](/r2/)
+- Run AI inference using [Workers AI](/workers-ai/)
+- Gain observability via [Analytics Engine](/analytics/analytics-engine/)
+- Manage stateful coordination with [Durable Objects](/durable-objects/)
+
+#### Resource isolation
+
+Each Worker can only access the bindings that are explicitly attached to it. For full isolation, you can attach a unique resource (like a D1 database or KV namespace) to every User Worker. If multiple Workers need to access the same data, you can reuse a shared resource, but every Worker will still have its own binding to that shared resource.
+
+![Resource Isolation Model](~/assets/images/reference-architecture/programmable-platforms/programmable-platforms-5.svg "Resource Isolation Model")
+
+## Adding Bindings to User Workers
+You can attach [bindings](/workers/runtime-apis/bindings/) to User Workers to give them access to resources like D1, KV, R2, or Workers Analytics Engine. This section explains how to create and attach those resources so they can be used from the User Worker.
+### 1. Create the resources
+
+For most bindings (e.g. KV, D1, R2, or Durable Objects), you'll first need to create the resource using the Wrangler CLI or Cloudflare API. This will generate a resource ID that you'll use when attaching the binding to the Worker in the next step. 
+
+Some bindings, like Workers AI or Workers Analytics Engine, don’t require you to create a resource in advance. If you're using one of those, you can skip this step and go directly to Step 2.
+
+:::note 
+For every product, be sure to check product specific limits. Some resources may require contacting Support to request limit increases.
+:::
+
+### 2. Attach the binding to the User Worker
+
+#### Using the API
+
+Use the [Upload User Worker API](http://localhost:1111/api/resources/workers_for_platforms/subresources/dispatch/subresources/namespaces/subresources/scripts/methods/update/) to attach bindings to a Worker. You can do this when you're first uploading the Worker script or when updating an existing Worker. 
+
+Once the API request is made, the Worker will be automatically redeployed with the updated configuration, making the binding available for use.
+
+You'll attach bindings using the `bindings` array within the `metadata` object of your API request. For each binding, you'll need to specify:
+
+- `type`: The binding type (e.g., kv_namespace, d1, r2_bucket, ai)
+- `name`: The variable name used to access the binding in the Worker code
+- (Optional) Resource-specific identifier: The namespace ID, database ID, bucket name, etc.
+
+##### Example API request
+
+```bash
+curl -X PUT \
+  "https://api.cloudflare.com/client/v4/accounts/<account-id>/workers/dispatch/namespaces/<your-namespace>/scripts/<script-name>" \
+  -H "Content-Type: multipart/form-data" \
+  -H "Authorization: Bearer <api-token>" \
+  -F 'metadata={
+    "main_module": "worker.js",
+    "bindings": [
+      {
+        "type": "kv_namespace",
+        "name": "USER_KV",
+        "namespace_id": "<your-namespace-id>"
+      },
+      {
+        "type": "d1", 
+        "name": "DB",
+        "id": "<your-database-id>"
+      },
+      {
+        "type": "ai",
+        "name": "AI"
+      }
+    ]
+  }' \
+  -F 'worker.js=@/path/to/worker.js'
+```
+Once you've added bindings to a Worker, if you want to add additional ones, use the `keep_bindings` parameter to ensure existing bindings are preserved while adding new ones:
+
+```bash
+curl -X PUT \
+  "https://api.cloudflare.com/client/v4/accounts/<account-id>/workers/dispatch/namespaces/<your-namespace>/scripts/<script-name>" \
+  -H "Content-Type: multipart/form-data" \
+  -H "Authorization: Bearer <api-token>" \
+  -F 'metadata={
+    "bindings": [
+      {
+        "type": "r2_bucket",
+        "name": "STORAGE", 
+        "bucket_name": "<your-bucket-name>"
+      }
+    ],
+    "keep_bindings": ["kv_namespace", "d1", "ai"]
+  }'
+```
+Once the API request is made, the Worker will be redeployed with the new bindings. The bindings will then become accessable from the Worker code using `env.BINDING_NAME` (e.g., `env.USER_KV.get()`).
+
+#### Using Wrangler
+
+If your platform supports a CLI-based deployment process, you can use Wrangler to add bindings to your User Workers. 
+
+The bindings will be managed in the [Wrangler configuration file](/workers/wrangler/configuration/): 
+
+import { WranglerConfig } from "~/components";
+
+<WranglerConfig>
+
+```toml
+name = "user-worker"
+main = "src/index.js"
+compatibility_date = "2025-06-10"
+
+# KV binding
+kv_namespaces = [
+  { binding = "USER_KV", id = "<your-namespace-id>" }
+]
+
+# D1 binding
+[[d1_databases]]
+binding = "DB"
+database_id = "<your-database-id>"
+
+# R2 binding  
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "<your-bucket-name>"
+
+# Workers AI binding
+[ai]
+binding = "AI"
+```
+
+</WranglerConfig>
+
+**Deploy the Worker**
+
+Use Wrangler to deploy the User Worker with the bindings: 
+```bash
+npx wrangler deploy --name $SCRIPT_NAME --dispatch-namespace $NAMESPACE_NAME
+```
+
+Once the Worker is deployed, the bindings will become accessable from the Worker code using `env.BINDING_NAME` (e.g., `env.USER_KV.get()`).
