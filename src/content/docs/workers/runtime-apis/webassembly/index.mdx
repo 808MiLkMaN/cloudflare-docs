@@ -13,8 +13,11 @@ import { DirectoryListing } from "~/components"
 
 On Workers and in [Cloudflare Pages Functions](https://blog.cloudflare.com/pages-functions-with-webassembly/), you can use WebAssembly to:
 
-* Execute code written in a language other than JavaScript, via [`WebAssembly.instantiate()`](https://developer.mozilla.org/en-US/docs/WebAssembly/Reference/JavaScript_interface/instantiate_static) called with a [`WebAssembly.Module`](https://developer.mozilla.org/en-US/docs/WebAssembly/Reference/JavaScript_interface/Module)
-  (using a [buffer parameter](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/instantiate_static#primary_overload_%E2%80%94_taking_wasm_binary_code) is not supported for security reasons).
+* Execute code written in a language other than JavaScript, via `WebAssembly.instantiate()`.
+	:::note
+		`WebAssembly.instantiate()` only supports pre-compiled modules as documented in the [web-standards documentation](/workers/runtime-apis/web-standards/#javascript-standards).
+	:::
+
 * Write an entire Cloudflare Worker in Rust, using bindings that make Workers' JavaScript APIs available directly from your Rust code.
 
 Most programming languages can be compiled to Wasm, although support varies across languages and compilers. Guides are available for the following languages:
