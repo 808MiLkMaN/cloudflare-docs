@@ -20,5 +20,12 @@ For a broader overview of mTLS at Cloudflare refer to [learning paths](/learning
 
 ## Scope
 
+Cloudflare validates client certificates with one CA, set at account level. This means that these certificates can be used for validation across multiple zones/domains (`example.com`), as long as the zones are under the same account and mTLS has been enabled for the requested hosts (`host.example.com`).
+
+If you use the Cloudflare-managed CA, client certificates that you create can be used with hosts in any zone/domain that belongs to your Cloudflare account. If you [bring your own CA](/ssl/client-certificates/byo-ca/), it will be set at account level and you can associate it with hosts in different zones/domains.
+
+:::note
+Bring your own CA (BYOCA) is API-only and certificates or host associations will **not** show up on your dashboard.
+:::
 
 ## Use cases
