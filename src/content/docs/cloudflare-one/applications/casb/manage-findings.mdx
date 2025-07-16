@@ -93,7 +93,7 @@ File findings for some integrations (such as [Microsoft 365](/cloudflare-one/app
 
 After reviewing your findings, you may decide that certain posture findings are not applicable to your organization. Cloudflare CASB allows you to remove findings or individual instances of findings from your list of active issues. CASB will continue to scan for these issues, but any detections will appear in a separate tab.
 
-### Hide a finding
+### Ignore a finding
 
 1. In [Zero Trust](https://one.dash.cloudflare.com), go to **CASB** > **Posture**.
 2. Locate the active finding you want to hide.
@@ -108,11 +108,15 @@ The finding's status will change from **Active** to **Ignored**. CASB will conti
 3. In **Active**, find the instance you want to hide.
 4. In the three-dot menu, select **Move to hidden**.
 
-The instance will be moved from **Active** to **Hidden** within the finding. If the finding occurs again for the same user, CASB will report the new instance in the **Hidden** tab. You can move hidden instances back to the **Active** tab at any time.
+The instance will be moved from **Active** to **Hidden** within the finding. If the finding occurs again for the same user, CASB will report the new instance quietly in the **Hidden** tab. You can move hidden instances back to the **Active** tab at any time.
+
+## Remediate findings
+
+In addition to detecting
 
 ## Resolve finding with a Gateway policy
 
-Using the security findings from CASB allows for fine-grained Gateway policies which prevent future unwanted behavior while still allowing usage that aligns to your organization's security policy. This means going from viewing a CASB finding, like the use of an unapproved application, to preventing or controlling access in minutes.
+Using the security findings from CASB allows for fine-grained Gateway policies which prevent future unwanted behavior while still allowing usage that aligns to your organization's security policy. You can view a CASB finding, like the use of an unapproved application, then immediately prevent or control access with Gateway.
 
 CASB supports creating a Gateway policy with findings from the [Google Workspace integration](/cloudflare-one/applications/casb/casb-integrations/google-workspace/):
 
