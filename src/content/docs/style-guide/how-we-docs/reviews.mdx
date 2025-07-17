@@ -1,0 +1,50 @@
+---
+pcx_content_type: how-to
+title: Content reviews
+meta:
+  title: Content reviews | How we docs
+---
+
+We work in (and appreciate working in) [GitHub](https://github.com/cloudflare/cloudflare-docs), but it's not a perfect tool by any means.
+
+We've added several ergonomic improvements to help us:
+
+- Triage incoming work
+- Streamline reviews
+- Automate communication
+
+## Triage work
+
+Labeling for size and product, assignment based on codeowners.
+
+## Streamline reviews
+
+Preview builds with every commit.
+
+Before/after table for comparisons.
+
+Codeowner comments.
+
+    - Who needs to approve this? —> Codeowner comments
+    - What is the difference —> Builds + before/after comment
+    - Is there anything else I need to check —> Potential redirects comment.
+
+## Automate communication
+
+We automate communication primarily through the [`no-response`](https://github.com/lee-dohm/no-response) GitHub Action.
+
+Being open source means that we accept issues and pull requests from anyone! And a lot of these are either self explanatory or have enough context for us to follow up on them.
+
+The ones without enough context, however, are often painful. A writer has to ask for more detail, then remember to check back in, and then sometimes re-ask for more detail, and then check in again.
+
+To help avoid some of this mental toil, we'll ask a question and then apply the `more-information-needed` label. This label starts a [14-day clock](https://github.com/cloudflare/cloudflare-docs/blob/production/.github/workflows/no-response.yml) for the author to respond. If they do respond, the label gets removed and the conversation can continue. If they don't respond, the issue automatically gets closed with a [comment explaining why](https://github.com/cloudflare/cloudflare-docs/issues/22943#issuecomment-3002211164).
+
+![No response comment](~/assets/images/style-guide/how-we-docs/no-response-comment.png)
+
+This workflow - we hope - balances the needs our of team with a healthy respect for our contributors.
+
+### Stale issues
+
+We intentionally avoid the [`stale` workflow](https://github.com/github/docs/blob/main/.github/workflows/stale.yml) that closes pull requests or issues that have been inactive for a specific period of time.
+
+In our opinion, this workflow causes more friction and frustration than it solves. Just because something has been around for a year doesn't mean it's not still relevant.
