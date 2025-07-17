@@ -3,10 +3,12 @@ title: The Cloudflare Vite plugin now supports Vite 7
 description: The Cloudflare Vite plugin now supports Vite 7
 products:
   - workers
-date: 2025-07-04T01:00:00Z
+date: 2025-07-17T01:00:00Z
 ---
 
 [Vite 7](https://vite.dev/blog/announcing-vite7) is now supported in the Cloudflare Vite plugin.
+It includes a new `buildApp` hook that enables multiple plugins to coordinate building environments.
+In a future release, we will utilize this to build auxiliary Workers in React Router applications.
 
 Note that the minimum Node.js versions supported by Vite 7 are 20.19 and 22.12.
 We continue to support Vite 6 so you do not need to immediately upgrade.
