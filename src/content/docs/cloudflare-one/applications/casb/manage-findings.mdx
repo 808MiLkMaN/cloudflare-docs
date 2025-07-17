@@ -125,12 +125,24 @@ CASB supports remediation with findings from the [Microsoft 365 integration](/cl
 
 </Details>
 
-To remediate findings, update your existing integration:
+Before you can remediate findings, update your existing integration:
 
 1. In [Zero Trust](https://one.dash.cloudflare.com/), go to **CASB** > **Integrations**.
-2. Choose your integration.
+2. Choose your integration, then select **Configure**.
 3. In **Integration permissions**, choose _Cloudflare One Read-Write Microsoft Policy_.
-4. Select **Update integration**.
+4. Select **Update integration**. CASB will redirect you to your Microsoft 365 configuration.
+5. Sign in to your organization, then select **Accept**.
+
+CASB can now remediate findings directly. Alternatively, you can [add a new integration](/cloudflare-one/applications/casb/#add-an-integration) and choose _Cloudflare One Read-Write Microsoft Policy_ during setup.
+
+To remediate compatible findings:
+
+1. In [Zero Trust](https://one.dash.cloudflare.com/), go to **CASB** > **Posture Findings**.
+2. Choose a compatible finding type, then select **Manage**.
+3. In **Active Instances**, select an instance.
+4. In **Remediation details**, choose a remediation action to take.
+
+CASB will begin remediating the instance. The remediated finding will appear in **CASB** > **Posture Findings** > **Remediated findings**.
 
 ## Resolve finding with a Gateway policy
 
