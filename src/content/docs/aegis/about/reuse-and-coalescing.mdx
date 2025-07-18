@@ -1,0 +1,15 @@
+---
+title: Connection reuse and coalescing
+pcx_content_type: concept
+sidebar:
+  order: 4
+  label: Reuse and coalescing
+---
+
+Aside from [concurrent connections](/aegis/about/ips-allocation/#connections-to-your-origin)[^1], connection reuse and connection coalescing are also important concepts. They both have impact on latency and are considered when allocating your Aegis IPv4 addresses.
+
+Implemented by HTTP/1.1, connection reuse describes multiple requests passing through one same connection (between one source IP:port and one destination IP:port). It is commonly the case even for simple websites nowadays.
+
+With HTTP/2, requests can use the same connection even if they are for different domains.
+
+[^1]: If you have one Aegis IP and two origins (A and B), this single Aegis IP can support 40,000 concurrent connections to origin A, while simultaneously supporting 40,000 concurrent connections to origin B.
