@@ -17,9 +17,9 @@ the `image` attribute to a local path, the image will be built using the local D
 If the `image` attribute is set to a URL, the image will be pulled from the associated registry.
 
 Container instances will be launched locally when your Worker code calls to create
-a new container. This may happen when calling `.get()` on a `Container` instance or
-by calling `start()` if `manualStart` is set to `true`. Wrangler will
-boot new instances and automatically route requests to the correct local container.
+a new container. This may happen when calling `.fetch()`, `.containerFetch()` or `start()`
+on a `Container` instance. Wrangler will boot new instances and automatically route
+requests to the correct local container.
 
 When `wrangler dev` stops, all associated container instances are stopped, but
 local images are not removed, so that they can be reused in subsequent calls to

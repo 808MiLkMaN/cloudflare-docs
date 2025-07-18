@@ -135,10 +135,12 @@ to define secrets for your Workers.
 Then you can pass these secrets to your Container using the `envVars` property:
 
 ```javascript
+import { env } from "cloudflare:workers";
+
 class MyContainer extends Container {
 	defaultPort = 5000;
 	envVars = {
-		MY_SECRET: this.env.MY_SECRET,
+		MY_SECRET: env.MY_SECRET,
 	};
 }
 ```
@@ -146,9 +148,11 @@ class MyContainer extends Container {
 Or when starting a Container instance on a Durable Object:
 
 ```javascript
+import { env } from "cloudflare:workers";
+
 this.ctx.container.start({
 	env: {
-		MY_SECRET: this.env.MY_SECRET,
+		MY_SECRET: env.MY_SECRET,
 	},
 });
 ```
