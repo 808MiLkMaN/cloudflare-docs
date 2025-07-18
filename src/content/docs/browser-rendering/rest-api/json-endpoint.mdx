@@ -253,9 +253,9 @@ console.log(json);
 Browser Rendering can use a custom model for which you supply credentials. List the model(s) in the `custom_ai` array:
 
 - `model` should be formed as `<provider>/<model_name>` and the provider must be one of these [supported providers](/ai-gateway/chat-completion/#supported-providers).
-- `authorization` is the bearer token or API key that allows Browser Rendering to call the provider on your behalf. 
+- `authorization` is the bearer token or API key that allows Browser Rendering to call the provider on your behalf.
 
-This example uses the `custom_ai` parameter to instruct Browser Rendering to use a custom Anthropic model. The prompt asks the model to extract the main <h1> and <h2> headings from the target URL and return them in a structured JSON object.
+This example uses the `custom_ai` parameter to instruct Browser Rendering to use a custom Anthropic model. The prompt asks the model to extract the main `<h1>` and `<h2>` headings from the target URL and return them in a structured JSON object.
 
 ```bash
 curl --request POST \
@@ -305,7 +305,7 @@ curl --request POST \
 
 You may specify multiple models to provide automatic failover. Browser Rendering will attempt the models in order until one succeeds. To add failover, list additional models.
 
-In this example, Browser Rendering first calls claude-sonnet-4-20250514. If that request returns an error, it automatically retries with gpt-4o. 
+In this example, Browser Rendering first calls claude-sonnet-4-20250514. If that request returns an error, it automatically retries with gpt-4o.
 
 ```
 "custom_ai": [
