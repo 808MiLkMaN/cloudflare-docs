@@ -8,3 +8,5 @@ import { Markdown } from "~/components";
 By default, Gateway will only inspect HTTP traffic through port `80`. Additionally, if you [turn on TLS decryption](/cloudflare-one/policies/gateway/http-policies/tls-decryption/#turn-on-tls-decryption), Gateway will inspect HTTPS traffic through port `443`.
 
 To detect and inspect HTTP and HTTPS traffic on ports other than `80` and `443`, <Markdown text={props.turnOnProcedure} />.
+
+Inspecting traffic on all ports works best if you deny all traffic by default using network policies. By default, Gateway allows all traffic. If you do not configure a default deny, Gateway will allow all non-HTTPS TLS traffic, and you will not be able to filter this traffic based on protocol.
